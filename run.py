@@ -5,12 +5,9 @@ from io import BytesIO
 import cv2
 import numpy as np
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from pptx import Presentation
 from pptx.util import Inches
 import time
-import os
 
 X_OFFSET = 280
 Y_OFFSET = -172
@@ -65,7 +62,7 @@ def save_screenshot_to_pptx(screenshot_path):
     img_path = "static_screenshot.png"
     img.save(img_path)
     slide.shapes.add_picture(img_path, left, top, width=Inches(width / 80), height=Inches(height / 80))
-    pptx_path = "C:\\Ad_screenshot\\Streamlit_display_screenshot\\modified_screenshot.pptx"
+    pptx_path = "modified_screenshot.pptx"
     prs.save(pptx_path)
     return pptx_path
 
@@ -93,10 +90,14 @@ def main():
             modified_screenshot_path = find_and_replace_reference_image(driver, reference_image_path)
 
             if modified_screenshot_path:
-                st.image(modified_screenshot_path, caption="Modified Screenshot", use_column_width=True)
+                # Display modified screenshot
+                st.image(Image.open(modified_screenshot_path), caption="Modified Screenshot", use_column_width=True)
+                
+                # Save screenshot to PPTX and display download button
                 pptx_path = save_screenshot_to_pptx(modified_screenshot_path)
                 with open(pptx_path, "rb") as f:
-                    st.download_button("Download PowerPoint", f, file_name="modified_screenshot.pptx")
+                    st.download_button("Download PowerPoint", f.read(), file_name="modified_screenshot.pptx")
+                    
             driver.quit()
 
 if __name__ == "__main__":
