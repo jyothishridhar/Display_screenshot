@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from pptx import Presentation
 from pptx.util import Inches
 import time
+import os
 
 X_OFFSET = 280
 Y_OFFSET = -172
@@ -97,7 +98,10 @@ def main():
                 pptx_path = save_screenshot_to_pptx(modified_screenshot_path)
                 with open(pptx_path, "rb") as f:
                     st.download_button("Download PowerPoint", f, file_name="modified_screenshot.pptx")
-                    
+
+                st.write("PPTX saved at:", pptx_path)  # Debugging line
+            else:
+                st.write("Reference image not found in the screenshot.")
             driver.quit()
 
 if __name__ == "__main__":
