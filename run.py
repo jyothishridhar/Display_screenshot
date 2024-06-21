@@ -96,7 +96,7 @@ def main():
                 # Save screenshot to PPTX and display download button
                 pptx_path = save_screenshot_to_pptx(modified_screenshot_path)
                 with open(pptx_path, "rb") as f:
-                    st.download_button("Download PowerPoint", f.read(), file_name="modified_screenshot.pptx")
+                    st.download_button("Download PowerPoint", f, file_name="modified_screenshot.pptx")
                     
             driver.quit()
 
